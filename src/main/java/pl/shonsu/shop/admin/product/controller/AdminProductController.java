@@ -84,6 +84,7 @@ public class AdminProductController {
                 .currency(adminProductDto.getCurrency())
                 .image(adminProductDto.getImage())
                 .slug(slugifySlug(adminProductDto.getSlug()))
+                .fullDescription(adminProductDto.getFullDescription())
                 .build();
     }
 

@@ -26,4 +26,6 @@ public class AdminProduct {
     private AdminProductCurrency currency;
     private String image;
     private String slug;
+    @Column(name="fulldescription")
+    private String fullDescription;
 }
