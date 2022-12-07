@@ -16,7 +16,7 @@ public class Category {
     private String name;
     private String description;
     private String slug;
-
-    public Category() {
-    }
+//    @OneToMany
+//    @JoinColumn(name = "categoryId")
+//    private List<Product> products;
 }
