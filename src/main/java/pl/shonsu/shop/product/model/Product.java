@@ -3,9 +3,11 @@ package pl.shonsu.shop.product.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.shonsu.shop.review.model.Review;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,10 +21,13 @@ public class Product {
     private String name;
     private Long categoryId;
     private String description;
+    @Column(name = "fulldescription")
+    private String fullDescription;
     private BigDecimal price;
     private String currency;
     private String image;
     private String slug;
-    @Column(name="fulldescription")
-    private String fullDescription;
+    @OneToMany
+    @JoinColumn(name = "productId")
+    private List<Review> reviews;
 }
