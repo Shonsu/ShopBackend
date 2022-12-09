@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.shonsu.shop.common.model.Review;
 import pl.shonsu.shop.review.controller.dto.ReviewDto;
-import pl.shonsu.shop.review.model.Review;
-import pl.shonsu.shop.review.repository.ReviewRepository;
 import pl.shonsu.shop.review.service.ReviewService;
 
 import javax.validation.Valid;
@@ -20,7 +19,6 @@ import javax.validation.Valid;
 public class ReviewController {
 
     private final ReviewService reviewService;
-    private final ReviewRepository reviewRepository;
 
     @PostMapping
     public Review addReview(@RequestBody @Valid ReviewDto reviewDto) {

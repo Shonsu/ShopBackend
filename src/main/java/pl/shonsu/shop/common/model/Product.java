@@ -1,9 +1,8 @@
-package pl.shonsu.shop.product.model;
+package pl.shonsu.shop.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.shonsu.shop.review.model.Review;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

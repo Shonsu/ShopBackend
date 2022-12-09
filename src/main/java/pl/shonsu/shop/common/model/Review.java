@@ -1,4 +1,4 @@
-package pl.shonsu.shop.review.model;
+package pl.shonsu.shop.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

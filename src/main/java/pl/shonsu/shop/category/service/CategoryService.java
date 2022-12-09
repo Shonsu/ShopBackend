@@ -6,12 +6,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.shonsu.shop.category.model.Category;
-import pl.shonsu.shop.category.model.CategoryProductsDto;
+import pl.shonsu.shop.category.dto.CategoryProductsDto;
 import pl.shonsu.shop.category.repository.CategoryRepository;
-import pl.shonsu.shop.product.controller.dto.ProductListDto;
-import pl.shonsu.shop.product.model.Product;
-import pl.shonsu.shop.product.repository.ProductRepository;
+import pl.shonsu.shop.common.dto.ProductListDto;
+import pl.shonsu.shop.common.model.Category;
+import pl.shonsu.shop.common.model.Product;
+import pl.shonsu.shop.common.repository.ProductRepository;
 
 import java.util.List;
 

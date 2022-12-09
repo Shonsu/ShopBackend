@@ -1,9 +1,9 @@
-package pl.shonsu.shop.product.repository;
+package pl.shonsu.shop.common.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import pl.shonsu.shop.product.model.Product;
+import pl.shonsu.shop.common.model.Product;
 
 import java.util.Optional;
 

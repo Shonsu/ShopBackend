@@ -1,4 +1,4 @@
-package pl.shonsu.shop.category.model;
+package pl.shonsu.shop.common.model;
 
 import lombok.Getter;
 

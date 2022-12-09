@@ -1,6 +1,5 @@
 package pl.shonsu.shop.admin.product.controller;
 
-import com.github.slugify.Slugify;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -20,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import static pl.shonsu.shop.admin.common.utils.SlugifyUtils.slugifySlug;
 
 @RestController
 @RequiredArgsConstructor
@@ -87,13 +88,4 @@ public class AdminProductController {
                 .fullDescription(adminProductDto.getFullDescription())
                 .build();
     }
-
-    private static String slugifySlug(String slug) {
-        Slugify slg = Slugify.builder()
-                .customReplacement("_", "-")
-                .build();
-        return slg.slugify(slug);
-    }
-
-
 }
