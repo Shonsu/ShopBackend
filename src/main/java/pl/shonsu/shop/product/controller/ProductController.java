@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.shonsu.shop.common.dto.ProductListDto;
 import pl.shonsu.shop.common.model.Product;
 import pl.shonsu.shop.product.service.ProductService;
+import pl.shonsu.shop.product.service.dto.ProductDto;
 
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -43,12 +44,11 @@ public class ProductController {
     }
 
     @GetMapping("/products/{slug}")
-    public Product getProductBySlug(
+    public ProductDto getProductBySlug(
             @PathVariable
             @Pattern(regexp = "[a-z0-9\\-]+")
             @Length(max = 255)
             String slug) {
         return productService.getProductsBySlug(slug);
-
     }
 }
