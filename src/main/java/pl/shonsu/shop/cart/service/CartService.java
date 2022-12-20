@@ -10,6 +10,8 @@ import pl.shonsu.shop.cart.repository.CartRepository;
 import pl.shonsu.shop.common.model.Product;
 import pl.shonsu.shop.common.repository.ProductRepository;
 
+import java.util.List;
+
 import static java.time.LocalDateTime.now;
 
 @Service
@@ -44,4 +46,24 @@ public class CartService {
         }
         return cartRepository.findById(id).orElseThrow();
     }
+
+    @Transactional
+    public Cart updateCart(Long id, List<CartProductDto> cartProductDtos) {
+        Cart cart = cartRepository.findById(id).orElseThrow();
+        cart.getItems().forEach(cartItem -> {
+            cartProductDtos.stream()
+                    .filter(cartProductDto ->
+                            cartProductDto.productId().equals(cartItem.getProduct().getId()))
+                    .findFirst()
+                    .ifPresent(cartProductDto -> cartItem.setQuantity(cartProductDto.quantity()));
+        });
+        return cart;
+    }
 }
+//{
+//        if(cartProductDto.quantity()>0) {
+//        cartItem.setQuantity(cartProductDto.quantity());
+//        }else{
+//        cart.getItems().remove(cartItem);
+//        }
+//        }
