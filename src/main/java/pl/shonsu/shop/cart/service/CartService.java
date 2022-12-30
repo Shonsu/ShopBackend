@@ -3,11 +3,11 @@ package pl.shonsu.shop.cart.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.shonsu.shop.cart.model.Cart;
-import pl.shonsu.shop.cart.model.CartItem;
 import pl.shonsu.shop.cart.model.dto.CartProductDto;
-import pl.shonsu.shop.cart.repository.CartRepository;
+import pl.shonsu.shop.common.model.Cart;
+import pl.shonsu.shop.common.model.CartItem;
 import pl.shonsu.shop.common.model.Product;
+import pl.shonsu.shop.common.repository.CartRepository;
 import pl.shonsu.shop.common.repository.ProductRepository;
 
 import java.util.List;

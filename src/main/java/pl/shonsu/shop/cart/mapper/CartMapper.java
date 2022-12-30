@@ -4,8 +4,8 @@ import pl.shonsu.shop.cart.controller.dto.CartSummaryDto;
 import pl.shonsu.shop.cart.controller.dto.CartuSummaryItemDto;
 import pl.shonsu.shop.cart.controller.dto.ProductDto;
 import pl.shonsu.shop.cart.controller.dto.SummaryDto;
-import pl.shonsu.shop.cart.model.Cart;
-import pl.shonsu.shop.cart.model.CartItem;
+import pl.shonsu.shop.common.model.Cart;
+import pl.shonsu.shop.common.model.CartItem;
 import pl.shonsu.shop.common.model.Product;
 
 import java.math.BigDecimal;

@@ -1,6 +1,8 @@
 package pl.shonsu.shop.cart.model;
 
 import org.junit.jupiter.api.Test;
+import pl.shonsu.shop.common.model.Cart;
+import pl.shonsu.shop.common.model.CartItem;
 import pl.shonsu.shop.common.model.Product;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

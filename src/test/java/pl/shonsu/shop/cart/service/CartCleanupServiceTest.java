@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.shonsu.shop.cart.model.Cart;
-import pl.shonsu.shop.cart.model.CartItem;
-import pl.shonsu.shop.cart.repository.CartItemRepository;
-import pl.shonsu.shop.cart.repository.CartRepository;
+import pl.shonsu.shop.common.model.Cart;
+import pl.shonsu.shop.common.model.CartItem;
 import pl.shonsu.shop.common.model.Product;
+import pl.shonsu.shop.common.repository.CartItemRepository;
+import pl.shonsu.shop.common.repository.CartRepository;
 import pl.shonsu.shop.common.repository.ProductRepository;
 
 import java.time.LocalDateTime;

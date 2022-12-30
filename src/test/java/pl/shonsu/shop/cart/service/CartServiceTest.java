@@ -5,10 +5,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.shonsu.shop.cart.model.Cart;
 import pl.shonsu.shop.cart.model.dto.CartProductDto;
-import pl.shonsu.shop.cart.repository.CartRepository;
+import pl.shonsu.shop.common.model.Cart;
 import pl.shonsu.shop.common.model.Product;
+import pl.shonsu.shop.common.repository.CartRepository;
 import pl.shonsu.shop.common.repository.ProductRepository;
 
 import java.util.Optional;

@@ -1,9 +1,9 @@
-package pl.shonsu.shop.cart.repository;
+package pl.shonsu.shop.common.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import pl.shonsu.shop.cart.model.CartItem;
+import pl.shonsu.shop.common.model.CartItem;
 
 import java.util.List;
 
