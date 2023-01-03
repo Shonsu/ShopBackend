@@ -10,11 +10,13 @@ import pl.shonsu.shop.common.repository.CartRepository;
 import pl.shonsu.shop.order.model.Order;
 import pl.shonsu.shop.order.model.OrderRow;
 import pl.shonsu.shop.order.model.OrderStatus;
+import pl.shonsu.shop.order.model.Payment;
 import pl.shonsu.shop.order.model.Shipment;
 import pl.shonsu.shop.order.model.dto.OrderDto;
 import pl.shonsu.shop.order.model.dto.OrderSummary;
 import pl.shonsu.shop.order.repository.OrderRepository;
 import pl.shonsu.shop.order.repository.OrderRowRepository;
+import pl.shonsu.shop.order.repository.PaymentRepository;
 import pl.shonsu.shop.order.repository.ShipmentRepository;
 
 import java.math.BigDecimal;
@@ -29,12 +31,15 @@ public class OrderService {
     private final CartItemRepository cartItemRepository;
     private final OrderRowRepository orderRowRepository;
     private final ShipmentRepository shipmentRepository;
+    private final PaymentRepository paymentRepository;
+
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto) {
         // pobranie koszyka
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
         Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
+        Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
         //stworzenie zamówienia z wierszami
         Order order = Order.builder()
                 .firstname(orderDto.getFirstname())
@@ -47,6 +52,7 @@ public class OrderService {
                 .placeDate(LocalDateTime.now())
                 .orderStatus(OrderStatus.NEW)
                 .grossValue(calculateGrossValue(cart.getItems(), shipment))
+                .payment(payment)
                 .build();
 
         // zapisać zamówienie
@@ -62,6 +68,7 @@ public class OrderService {
                 .placeDate(newOrder.getPlaceDate())
                 .status(newOrder.getOrderStatus())
                 .grossValue(newOrder.getGrossValue())
+                .payment(payment)
                 .build();
     }
 

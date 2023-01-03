@@ -10,6 +10,7 @@ import pl.shonsu.shop.order.model.dto.InitOrder;
 import pl.shonsu.shop.order.model.dto.OrderDto;
 import pl.shonsu.shop.order.model.dto.OrderSummary;
 import pl.shonsu.shop.order.service.OrderService;
+import pl.shonsu.shop.order.service.PaymentService;
 import pl.shonsu.shop.order.service.ShipmentService;
 
 @RestController
@@ -19,6 +20,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final ShipmentService shipmentService;
+    private final PaymentService paymentService;
 
     @PostMapping
     public OrderSummary placeOrder(@RequestBody OrderDto orderDto) {
@@ -29,6 +31,7 @@ public class OrderController {
     public InitOrder initData() {
         return InitOrder.builder()
                 .shipment(shipmentService.getShipments())
+                .payment(paymentService.getPayments())
                 .build();
     }
 

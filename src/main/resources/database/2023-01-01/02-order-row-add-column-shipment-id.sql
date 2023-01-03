@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset shonsu:14
+--changeset shonsu:15
 alter table order_row MODIFY product_id bigint;
 alter table order_row
     add shipment_id bigint;
