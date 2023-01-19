@@ -1,4 +1,4 @@
-FROM arm64v8/eclipse-temurin:17 as build
+FROM arm64v8/eclipse-temurin:17
 LABEL maintainer="Shonsu"
 RUN apt-get update -y
 
