@@ -36,6 +36,4 @@ public class CartController {
 
         return CartMapper.mapToCartSummary(cartService.updateCart(id, cartProductDtos));
     }
-
-
 }

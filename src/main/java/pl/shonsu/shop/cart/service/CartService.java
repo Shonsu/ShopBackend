@@ -42,9 +42,13 @@ public class CartService {
 
     private Cart getInitializedCart(Long id) {
         if (id == null || id <= 0) {
-            return cartRepository.save(Cart.builder().created(now()).build());
+            return saveNewCart();
         }
-        return cartRepository.findById(id).orElseThrow();
+        return cartRepository.findById(id).orElseGet(this::saveNewCart);
+    }
+
+    private Cart saveNewCart() {
+        return cartRepository.save(Cart.builder().created(now()).build());
     }
 
     @Transactional
