@@ -7,10 +7,10 @@ import pl.shonsu.shop.admin.order.model.AdminOrderStatus;
 import pl.shonsu.shop.admin.order.model.dto.AdminOrderStats;
 import pl.shonsu.shop.admin.order.repository.AdminOrderRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.TreeMap;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -18,30 +18,29 @@ public class AdminOrderStatsService {
 
     private final AdminOrderRepository orderRepository;
 
-    public AdminOrderStats getStatistics() {
-        LocalDateTime from = LocalDateTime.now().withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
-        LocalDateTime to = LocalDateTime.now();
+    public AdminOrderStats getStatistics(LocalDateTime from, LocalDateTime to, AdminOrderStatus orderStatus) {
+
         List<AdminOrder> orders = orderRepository.findAllByPlaceDateIsBetweenAndOrderStatus(
                 from,
                 to,
-                AdminOrderStatus.COMPLETED);
-        TreeMap<Integer, DaySale> result = new TreeMap<>();
-        IntStream.rangeClosed(from.getDayOfMonth(), to.getDayOfMonth())
-                .forEach(value -> result.put(value, aggregateValues(value, orders)));
-//        for (int i = from.getDayOfMonth(); i <= to.getDayOfMonth(); i++) {
-//            result.put(i, aggregateValues(i, orders));
-//        }
+                orderStatus);
+        TreeMap<LocalDate, DaySale> result = new TreeMap<>();
+        from.toLocalDate().datesUntil(to.toLocalDate().plusDays(1L))
+                .forEach(date -> result.put(date,
+                        aggregateValues(date, orders)));
+
         return AdminOrderStats.builder()
-                .label(result.keySet().stream().toList())
+                .placeDate(result.keySet().stream().toList())
                 .sale(result.values().stream().map(DaySale::getSale).toList())
                 .order(result.values().stream().map(DaySale::getCount).toList())
                 .build();
     }
 
-    private DaySale aggregateValues(int i, List<AdminOrder> orders) {
+    private DaySale aggregateValues(LocalDate placeDate, List<AdminOrder> orders) {
         return orders.stream()
-                .filter(adminOrder -> adminOrder.getPlaceDate().getDayOfMonth() == i)
+                .filter(adminOrder -> adminOrder.getPlaceDate().toLocalDate().equals(placeDate))
                 .collect(new SalesCollector());
+        //System.out.println(collect);
 //        Long ordersCount = orders.stream()
 //                .filter(order->order.getPlaceDate().getDayOfMonth()==i)
 //                .count();
@@ -50,7 +49,7 @@ public class AdminOrderStatsService {
 //                .map(AdminOrder::getGrossValue)
 //                .reduce(BigDecimal::add)
 //                .orElse(BigDecimal.ZERO);
-                //.map(AdminOrder::getGrossValue)
-                //.collect(DaySale::new, DaySale::accept, DaySale::combine);
+        //.map(AdminOrder::getGrossValue)
+        //.collect(DaySale::new, DaySale::accept, DaySale::combine);
     }
 }
