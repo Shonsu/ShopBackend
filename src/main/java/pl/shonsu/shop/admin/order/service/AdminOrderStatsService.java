@@ -7,6 +7,7 @@ import pl.shonsu.shop.admin.order.model.AdminOrderStatus;
 import pl.shonsu.shop.admin.order.model.dto.AdminOrderStats;
 import pl.shonsu.shop.admin.order.repository.AdminOrderRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,6 +34,8 @@ public class AdminOrderStatsService {
                 .placeDate(result.keySet().stream().toList())
                 .sale(result.values().stream().map(DaySale::getSale).toList())
                 .order(result.values().stream().map(DaySale::getCount).toList())
+                .ordersCount(result.values().stream().map(DaySale::getCount).reduce(Long::sum).orElse(0L))
+                .salesSum(result.values().stream().map(DaySale::getSale).reduce(BigDecimal::add).orElse(BigDecimal.ZERO))
                 .build();
     }
 
@@ -40,16 +43,5 @@ public class AdminOrderStatsService {
         return orders.stream()
                 .filter(adminOrder -> adminOrder.getPlaceDate().toLocalDate().equals(placeDate))
                 .collect(new SalesCollector());
-        //System.out.println(collect);
-//        Long ordersCount = orders.stream()
-//                .filter(order->order.getPlaceDate().getDayOfMonth()==i)
-//                .count();
-//        BigDecimal ordersSale = orders.stream()
-//                .filter(order->order.getPlaceDate().getDayOfMonth()==i)
-//                .map(AdminOrder::getGrossValue)
-//                .reduce(BigDecimal::add)
-//                .orElse(BigDecimal.ZERO);
-        //.map(AdminOrder::getGrossValue)
-        //.collect(DaySale::new, DaySale::accept, DaySale::combine);
     }
 }

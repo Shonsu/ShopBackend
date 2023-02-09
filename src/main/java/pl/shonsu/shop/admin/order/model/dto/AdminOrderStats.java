@@ -13,4 +13,6 @@ public class AdminOrderStats {
     private List<LocalDate> placeDate;
     private List<BigDecimal> sale;
     private List<Long> order;
+    private Long ordersCount;
+    private BigDecimal salesSum;
 }

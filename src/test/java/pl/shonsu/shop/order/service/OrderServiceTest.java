@@ -37,17 +37,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-//@SpringBootTest(classes = {ShopApplication.class, OrderServiceTest.FakeClockConfig.class}, properties = "spring.main.allow-bean-definition-overriding=true")
-//(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-//        classes = {ShopApplication.class, OrderServiceTest.FakeClockConfig.class},
-//        properties = "spring.main.allow-bean-definition-overriding=true")
 class OrderServiceTest {
-
-    // private final static LocalDateTime PLACE_DATE = LocalDateTime.now();
-//    private final static LocalDateTime TEST_TIME = LocalDateTime.of(
-//            2023, Month.JANUARY, 1, 20, 0);
-//    @MockBean
-//    private Clock clock;
     @Mock
     private CartRepository cartRepository;
     @Mock
@@ -66,14 +56,6 @@ class OrderServiceTest {
     private OrderService orderService;
     @Captor
     ArgumentCaptor<Long> cartId;
-
-//    @TestConfiguration
-//    static class FakeClockConfig {
-//        @Bean
-//        public Clock clock() {
-//            return Clock.fixed(TEST_TIME.toInstant(ZoneOffset.UTC), ZoneId.of("CET"));
-//        }
-//    }
 
     @Test
     void shouldPlaceOrder() {
@@ -103,7 +85,6 @@ class OrderServiceTest {
 
         assertThat(cartIdValue).isEqualTo(1L);
 
-        //extend order service and inject clock, assert place_date (fixed clock)
     }
 
     private Optional<Payment> createPayment() {

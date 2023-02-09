@@ -1,6 +1,6 @@
-insert into category(id, name, slug)
+/*insert into category(id, name, slug)
 values (1, 'Inne', 'inne');
-
+*/
 
 insert into product (id, name, category_id, description, price, currency)
 values (1, 'Samolot', 1, 'dwupłat', 12.55, 'PLN'),

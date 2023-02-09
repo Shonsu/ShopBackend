@@ -1,6 +1,9 @@
 package pl.shonsu.shop.admin.order.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.shonsu.shop.order.model.OrderRow;
 import pl.shonsu.shop.order.model.Payment;
@@ -23,6 +26,9 @@ import java.util.List;
 @Table(name = "`order`")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AdminOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
