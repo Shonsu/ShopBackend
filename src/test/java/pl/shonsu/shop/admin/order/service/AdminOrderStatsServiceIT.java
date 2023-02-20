@@ -21,6 +21,7 @@ import pl.shonsu.shop.order.model.PaymentType;
 import pl.shonsu.shop.order.model.Shipment;
 import pl.shonsu.shop.order.model.dto.OrderDto;
 import pl.shonsu.shop.order.repository.OrderRepository;
+import pl.shonsu.shop.order.repository.OrderRowRepository;
 import pl.shonsu.shop.order.repository.PaymentRepository;
 import pl.shonsu.shop.order.repository.ShipmentRepository;
 import pl.shonsu.shop.order.service.OrderService;
@@ -60,6 +61,8 @@ public class AdminOrderStatsServiceIT {
 
     @Autowired
     AdminOrderStatsService adminOrderStatsService;
+    @Autowired
+    private OrderRowRepository orderRowRepository;
 
     @Before
     public void initMocks() {
@@ -75,6 +78,7 @@ public class AdminOrderStatsServiceIT {
         when(shipmentRepository.findById(any())).thenReturn(createShipment());
         when(paymentRepository.findById(any())).thenReturn(createPayment());
         when(emailClientService.getInstance()).thenReturn(new FakeEmailService());
+       // when(orderRowRepository.save(any())).thenReturn(null);
         createAdminOrderList();
         //when
         AdminOrderStats adminOrderStats = adminOrderStatsService.getStatistics(from, to, AdminOrderStatus.NEW);
@@ -115,7 +119,7 @@ public class AdminOrderStatsServiceIT {
                 .cartId(1L)
                 .shipmentId(2L)
                 .paymentId(3L)
-                .build());
+                .build(), null);
     }
 
     private Optional<Cart> createCart() {
@@ -144,7 +148,7 @@ public class AdminOrderStatsServiceIT {
                         .cartId(1L)
                         .quantity(1)
                         .product(Product.builder()
-                                .id(1L)
+                                .id(2L)
                                 .price(new BigDecimal("11"))
                                 .build())
                         .build()

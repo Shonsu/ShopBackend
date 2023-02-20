@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderMapper {
-    public static Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment) {
+    public static Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment, Long userId) {
         return Order.builder()
                 .firstname(orderDto.getFirstname())
                 .lastname(orderDto.getLastname())
@@ -28,6 +28,7 @@ public class OrderMapper {
                 .orderStatus(OrderStatus.NEW)
                 .grossValue(calculateGrossValue(cart.getItems(), shipment))
                 .payment(payment)
+                .userId(userId)
                 .build();
     }
 

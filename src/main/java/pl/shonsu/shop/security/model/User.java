@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -32,10 +33,32 @@ public class User implements Serializable {
     private String username;
     private String password;
     private boolean enabled;
+
+    //    @Id
+//    @GeneratedValue(generator = "UUID")
+//    @GenericGenerator(
+//            name = "UUID",
+//            strategy = "org.hibernate.id.UUIDGenerator"
+//    )
+    @Column(name = "uuid", updatable = false, nullable = false, columnDefinition = "BINARY(16)")
+    //@Type(type = "uuid-char")
+    private UUID uuid = UUID.randomUUID();
     @ElementCollection
     @CollectionTable(name = "authorities", joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"))
     @Column(name = "authority")
     @Enumerated(EnumType.STRING)
     private List<UserRole> authorities;
 
+    public static UserBuilder builder() {
+        return new UserBuilder();
+    }
+
+//    @PrePersist
+//    private void assignUUID() {
+//        this.uuid = UUID.randomUUID();
+//    }
+
+    public static class UserBuilder {
+        private UUID uuid  =  UUID.randomUUID();
+    }
 }

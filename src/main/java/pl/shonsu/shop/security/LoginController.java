@@ -66,15 +66,13 @@ public class LoginController {
     }
 
     private Token authenticate(String username, String password) {
-        //User user = userRepository.findByUsername(username).orElseThrow();
+        User user = userRepository.findByUsername(username).orElseThrow();
         Authentication authenticate = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
+                new UsernamePasswordAuthenticationToken(user.getUuid(), password)
         );
-
         ShopUserDetails principal = (ShopUserDetails) authenticate.getPrincipal();
-
         String token = JWT.create()
-                .withSubject(String.valueOf(principal.getId()))
+                .withSubject(String.valueOf(principal.getUuid()))
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
                 .sign(Algorithm.HMAC256(secret));
         return new Token(token, principal.getAuthorities().stream()

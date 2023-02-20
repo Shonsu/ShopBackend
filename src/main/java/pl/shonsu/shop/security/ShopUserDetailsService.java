@@ -11,6 +11,8 @@ import pl.shonsu.shop.security.model.ShopUserDetails;
 import pl.shonsu.shop.security.model.User;
 import pl.shonsu.shop.security.repository.UserRepository;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class ShopUserDetailsService implements UserDetailsService {
@@ -19,9 +21,9 @@ public class ShopUserDetailsService implements UserDetailsService {
 
     @Transactional
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //User user = userRepository.findById(Long.parseLong(username)).orElseThrow();
-        User user = userRepository.findByUsername(username).orElseThrow();
+    public UserDetails loadUserByUsername(String uuid) throws UsernameNotFoundException {
+        User user = userRepository.findByUuid(UUID.fromString(uuid)).orElseThrow();
+        //User user = userRepository.findByUsername(uuid).orElseThrow();
         ShopUserDetails shopUserDetails = new ShopUserDetails(
                 user.getUsername(),
                 user.getPassword(),
@@ -30,6 +32,7 @@ public class ShopUserDetailsService implements UserDetailsService {
                         .toList()
         );
         shopUserDetails.setId(user.getId());
+        shopUserDetails.setUuid(user.getUuid());
         return shopUserDetails;
     }
 }
