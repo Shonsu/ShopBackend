@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.shonsu.shop.admin.order.model.AdminOrder;
 import pl.shonsu.shop.admin.order.model.AdminOrderLog;
-import pl.shonsu.shop.admin.order.model.AdminOrderStatus;
 import pl.shonsu.shop.admin.order.repository.AdminOrderLogRepository;
 import pl.shonsu.shop.admin.order.repository.AdminOrderRepository;
+import pl.shonsu.shop.common.model.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -23,6 +23,7 @@ public class AdminOrderService {
     private final AdminOrderRepository adminOrderRepository;
     private final AdminOrderLogRepository adminOrderLogRepository;
     private final EmailNotificationForStatusChange emailNotificationForStatusChange;
+    private OrderStatus oldStatus;
 
     public Page<AdminOrder> getOrders(Pageable pageable) {
         return adminOrderRepository.findAll(PageRequest.of(
@@ -48,8 +49,8 @@ public class AdminOrderService {
     }
 
     private void processOrderStatusChange(AdminOrder adminOrder, Map<String, String> values) {
-        AdminOrderStatus oldStatus = adminOrder.getOrderStatus();
-        AdminOrderStatus newStatus = AdminOrderStatus.valueOf(values.get("orderStatus"));
+        OrderStatus oldStatus = adminOrder.getOrderStatus();
+        OrderStatus newStatus = OrderStatus.valueOf(values.get("orderStatus"));
         if (oldStatus == newStatus) {
             return;
         }
@@ -58,7 +59,7 @@ public class AdminOrderService {
         emailNotificationForStatusChange.sendEmailNotification(newStatus, adminOrder);
     }
 
-    private void logStatusChage(Long orderId, AdminOrderStatus oldStatus, AdminOrderStatus newStatus) {
+    private void logStatusChage(Long orderId, OrderStatus oldStatus, OrderStatus newStatus) {
         adminOrderLogRepository.save(AdminOrderLog.builder()
                 .created(LocalDateTime.now())
                 .orderId(orderId)

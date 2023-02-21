@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.shonsu.shop.common.model.OrderStatus;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

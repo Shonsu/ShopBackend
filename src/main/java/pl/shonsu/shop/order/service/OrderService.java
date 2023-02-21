@@ -11,12 +11,16 @@ import pl.shonsu.shop.order.model.Order;
 import pl.shonsu.shop.order.model.Payment;
 import pl.shonsu.shop.order.model.Shipment;
 import pl.shonsu.shop.order.model.dto.OrderDto;
+import pl.shonsu.shop.order.model.dto.OrderListDto;
 import pl.shonsu.shop.order.model.dto.OrderSummary;
 import pl.shonsu.shop.order.repository.OrderRepository;
 import pl.shonsu.shop.order.repository.OrderRowRepository;
 import pl.shonsu.shop.order.repository.PaymentRepository;
 import pl.shonsu.shop.order.repository.ShipmentRepository;
 
+import java.util.List;
+
+import static pl.shonsu.shop.order.service.mapper.OrderDtoMapper.mapToOrderListDto;
 import static pl.shonsu.shop.order.service.mapper.OrderEmailMessageMapper.createEmailMessage;
 import static pl.shonsu.shop.order.service.mapper.OrderMapper.createNewOrder;
 import static pl.shonsu.shop.order.service.mapper.OrderMapper.createOrderSummary;
@@ -81,4 +85,7 @@ public class OrderService {
                 .toList();
     }
 
+    public List<OrderListDto> getOrdersForCustomer(Long userId) {
+        return mapToOrderListDto(orderRepository.findByUserId(userId));
+    }
 }

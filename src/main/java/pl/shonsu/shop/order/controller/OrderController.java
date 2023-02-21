@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.shonsu.shop.order.model.dto.InitOrder;
 import pl.shonsu.shop.order.model.dto.OrderDto;
+import pl.shonsu.shop.order.model.dto.OrderListDto;
 import pl.shonsu.shop.order.model.dto.OrderSummary;
 import pl.shonsu.shop.order.service.OrderService;
 import pl.shonsu.shop.order.service.PaymentService;
 import pl.shonsu.shop.order.service.ShipmentService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,4 +39,11 @@ public class OrderController {
                 .build();
     }
 
+    @GetMapping
+    public List<OrderListDto> getOrders(@AuthenticationPrincipal Long userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("Brak użytkownika");
+        }
+        return orderService.getOrdersForCustomer(userId);
+    }
 }

@@ -2,9 +2,9 @@ package pl.shonsu.shop.order.service.mapper;
 
 import pl.shonsu.shop.common.model.Cart;
 import pl.shonsu.shop.common.model.CartItem;
+import pl.shonsu.shop.common.model.OrderStatus;
 import pl.shonsu.shop.order.model.Order;
 import pl.shonsu.shop.order.model.OrderRow;
-import pl.shonsu.shop.order.model.OrderStatus;
 import pl.shonsu.shop.order.model.Payment;
 import pl.shonsu.shop.order.model.Shipment;
 import pl.shonsu.shop.order.model.dto.OrderDto;

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.shonsu.shop.admin.order.model.AdminOrder;
-import pl.shonsu.shop.admin.order.model.AdminOrderStatus;
 import pl.shonsu.shop.admin.order.service.AdminExportService;
+import pl.shonsu.shop.common.model.OrderStatus;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -45,7 +45,7 @@ public class AdminOrderExportController {
     public ResponseEntity<Resource> exportOrders(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate to,
-            @RequestParam AdminOrderStatus orderStatus
+            @RequestParam OrderStatus orderStatus
     ) {
 
         List<AdminOrder> adminOrders = adminExportService.exportOrders(

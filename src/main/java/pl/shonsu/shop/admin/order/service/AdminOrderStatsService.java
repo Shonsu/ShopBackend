@@ -3,9 +3,9 @@ package pl.shonsu.shop.admin.order.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.shonsu.shop.admin.order.model.AdminOrder;
-import pl.shonsu.shop.admin.order.model.AdminOrderStatus;
 import pl.shonsu.shop.admin.order.model.dto.AdminOrderStats;
 import pl.shonsu.shop.admin.order.repository.AdminOrderRepository;
+import pl.shonsu.shop.common.model.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ public class AdminOrderStatsService {
 
     private final AdminOrderRepository orderRepository;
 
-    public AdminOrderStats getStatistics(LocalDateTime from, LocalDateTime to, AdminOrderStatus orderStatus) {
+    public AdminOrderStats getStatistics(LocalDateTime from, LocalDateTime to, OrderStatus orderStatus) {
 
         List<AdminOrder> orders = orderRepository.findAllByPlaceDateIsBetweenAndOrderStatus(
                 from,

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.shonsu.shop.common.model.OrderStatus;
 import pl.shonsu.shop.order.model.OrderRow;
 import pl.shonsu.shop.order.model.Payment;
 
@@ -35,7 +36,7 @@ public class AdminOrder {
     private Long id;
     private LocalDateTime placeDate;
     @Enumerated(EnumType.STRING)
-    private AdminOrderStatus orderStatus;
+    private OrderStatus orderStatus;
     @OneToMany
     @JoinColumn(name = "orderId")
     private List<OrderRow> orderRows;

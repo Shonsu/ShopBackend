@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.shonsu.shop.admin.order.controller.dto.AdminInitDataDto;
 import pl.shonsu.shop.admin.order.controller.dto.AdminOrderDto;
 import pl.shonsu.shop.admin.order.model.AdminOrder;
-import pl.shonsu.shop.admin.order.model.AdminOrderStatus;
 import pl.shonsu.shop.admin.order.service.AdminOrderService;
+import pl.shonsu.shop.common.model.OrderStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +50,7 @@ public class AdminOrderController {
 
     private Map<String, String> createOrderStatusMap() {
         HashMap<String, String> statuses = new HashMap<>();
-        for (AdminOrderStatus value : AdminOrderStatus.values()) {
+        for (OrderStatus value : OrderStatus.values()) {
             statuses.put(value.name(), value.getValue());
         }
         return statuses;

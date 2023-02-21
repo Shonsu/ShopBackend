@@ -1,6 +1,6 @@
-package pl.shonsu.shop.admin.order.model;
+package pl.shonsu.shop.common.model;
 
-public enum AdminOrderStatus {
+public enum OrderStatus {
     NEW("Nowe"),
     PAID("Zapłacone"),
     PROCESSING("Przetwarzane"),
@@ -11,7 +11,7 @@ public enum AdminOrderStatus {
 
     private final String value;
 
-    AdminOrderStatus(String value) {
+    OrderStatus(String value) {
         this.value = value;
     }
 

@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.shonsu.shop.admin.order.model.AdminOrderStatus;
 import pl.shonsu.shop.admin.order.model.dto.AdminOrderStats;
 import pl.shonsu.shop.admin.order.service.AdminOrderStatsService;
+import pl.shonsu.shop.common.model.OrderStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,7 +24,7 @@ public class AdminOrderStatsController {
     public AdminOrderStats getOrderStatistics(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate to,
-            @RequestParam AdminOrderStatus orderStatus
+            @RequestParam OrderStatus orderStatus
     ) {
         System.out.println(from + " to : " + to + " order status: " + orderStatus);
         return adminOrderStatsService.getStatistics(

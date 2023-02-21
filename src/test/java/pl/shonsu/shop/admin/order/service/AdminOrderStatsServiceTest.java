@@ -6,7 +6,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.shonsu.shop.admin.order.model.AdminOrder;
-import pl.shonsu.shop.admin.order.model.AdminOrderStatus;
 import pl.shonsu.shop.admin.order.model.dto.AdminOrderStats;
 import pl.shonsu.shop.admin.order.repository.AdminOrderRepository;
 
