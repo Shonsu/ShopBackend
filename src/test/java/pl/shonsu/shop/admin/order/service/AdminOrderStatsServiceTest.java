@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import pl.shonsu.shop.admin.order.model.AdminOrder;
 import pl.shonsu.shop.admin.order.model.dto.AdminOrderStats;
 import pl.shonsu.shop.admin.order.repository.AdminOrderRepository;
+import pl.shonsu.shop.common.model.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -44,7 +45,7 @@ class AdminOrderStatsServiceTest {
         LocalDateTime to = LocalDateTime.of(2022, 5, 13, 23, 59, 59);
         when(adminOrderRepository.findAllByPlaceDateIsBetweenAndOrderStatus(any(), any(), any())).thenReturn(createAdminOrderList());
         //when
-        AdminOrderStats adminOrderStats = adminOrderStatsService.getStatistics(from, to, AdminOrderStatus.NEW);
+        AdminOrderStats adminOrderStats = adminOrderStatsService.getStatistics(from, to, OrderStatus.NEW);
         //then
         assertThat(adminOrderStats.getOrder().size()).isEqualTo(2);
         assertThat(adminOrderStats.getPlaceDate().get(0)).isEqualTo(LocalDate.of(2022,5,12));
@@ -57,37 +58,37 @@ class AdminOrderStatsServiceTest {
                 AdminOrder.builder()
                         .id(1L)
                         .placeDate(LocalDateTime.of(2022, 5, 11, 23, 59, 59))
-                        .orderStatus(AdminOrderStatus.NEW)
+                        .orderStatus(OrderStatus.NEW)
                         .grossValue(BigDecimal.valueOf(5))
                         .build(),
                 AdminOrder.builder()
                         .id(2L)
                         .placeDate(LocalDateTime.of(2022, 5, 12, 0, 0, 0))
-                        .orderStatus(AdminOrderStatus.NEW)
+                        .orderStatus(OrderStatus.NEW)
                         .grossValue(BigDecimal.valueOf(10))
                         .build(),
                 AdminOrder.builder()
                         .id(3L)
                         .placeDate(LocalDateTime.of(2022, 5, 12, 0, 0, 0))
-                        .orderStatus(AdminOrderStatus.NEW)
+                        .orderStatus(OrderStatus.NEW)
                         .grossValue(BigDecimal.valueOf(10))
                         .build(),
                 AdminOrder.builder()
                         .id(4L)
                         .placeDate(LocalDateTime.of(2022, 5, 13, 0, 0, 0))
-                        .orderStatus(AdminOrderStatus.NEW)
+                        .orderStatus(OrderStatus.NEW)
                         .grossValue(BigDecimal.valueOf(13))
                         .build(),
                 AdminOrder.builder()
                         .id(5L)
                         .placeDate(LocalDateTime.of(2022, 5, 13, 0, 0, 0))
-                        .orderStatus(AdminOrderStatus.NEW)
+                        .orderStatus(OrderStatus.NEW)
                         .grossValue(BigDecimal.valueOf(13))
                         .build(),
                 AdminOrder.builder()
                         .id(6L)
                         .placeDate(LocalDateTime.of(2022, 5, 14, 0, 0, 0))
-                        .orderStatus(AdminOrderStatus.NEW)
+                        .orderStatus(OrderStatus.NEW)
                         .grossValue(BigDecimal.valueOf(13))
                         .build()
         );

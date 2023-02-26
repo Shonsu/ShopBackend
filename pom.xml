@@ -20,6 +20,17 @@
         <org.lombok.version>1.18.26</org.lombok.version>
     </properties>
     <profiles>
+
+        <profile>
+        <id>prod</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>prod</spring.profiles.active>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
         <profile>
             <id>dev</id>
             <activation>
