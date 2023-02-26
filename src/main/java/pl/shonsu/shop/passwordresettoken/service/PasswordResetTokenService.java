@@ -43,7 +43,6 @@ public class PasswordResetTokenService {
     @Transactional
     public void resetPassword(PasswordResetRequest passwordResetRequest) {
         PasswordResetToken prt = passwordResetTokenRepository.findByIdToken(hashToken(passwordResetRequest.getToken())).orElseThrow();
-
         if (!passwordResetRequest.getPassword()
                 .equals(passwordResetRequest.getRepeatedPassword())
                 || !userRepository.existsById(prt.getId().getUserId())

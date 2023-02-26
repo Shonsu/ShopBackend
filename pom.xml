@@ -29,6 +29,7 @@
                 <spring.profiles.active>dev</spring.profiles.active>
                 <spring.datasource.host>localhost</spring.datasource.host>
                 <spring.datasource.port>3306</spring.datasource.port>
+                <maven.test.skip>true</maven.test.skip>
                 <skipTests>true</skipTests>
             </properties>
         </profile>
