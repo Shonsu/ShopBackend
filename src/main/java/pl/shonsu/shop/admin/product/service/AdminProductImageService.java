@@ -21,6 +21,16 @@ public class AdminProductImageService {
 
     public String uploadImage(String filename, InputStream inputStream) {
         String newFileName = SlugifyUtils.slugifyFileName(filename);
+
+        if(!Files.exists(Path.of(uploadDir))){
+            try{
+                Files.createDirectory(Path.of((uploadDir)));
+            }catch (IOException e){
+                throw new RuntimeException("Can create directory.");
+            }
+
+        }
+
         newFileName = ExistingFileRenameUtils.renameIfExists(Path.of(uploadDir), newFileName);
         Path filePath = Paths.get(uploadDir).resolve(newFileName);
         try (OutputStream outputStream = Files.newOutputStream(filePath)) {
