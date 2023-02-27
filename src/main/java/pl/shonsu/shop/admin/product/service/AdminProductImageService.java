@@ -37,7 +37,7 @@ public class AdminProductImageService {
             try{
                 Files.createDirectory(Path.of((uploadDir)));
             }catch (IOException e){
-                throw new RuntimeException("Can not create directory.");
+                throw new RuntimeException("Can not create directory." + e.getMessage() + e.getCause());
             }
 
         }
