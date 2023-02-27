@@ -6,6 +6,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import pl.shonsu.shop.admin.common.utils.SlugifyUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,12 +22,20 @@ public class AdminProductImageService {
 
     public String uploadImage(String filename, InputStream inputStream) {
         String newFileName = SlugifyUtils.slugifyFileName(filename);
+        System.out.println(Path.of(uploadDir));
+        String path = null;
+        try {
+            path = new File(".").getCanonicalPath();
+            System.out.println(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         if(!Files.exists(Path.of(uploadDir))){
             try{
                 Files.createDirectory(Path.of((uploadDir)));
             }catch (IOException e){
-                throw new RuntimeException("Can create directory.");
+                throw new RuntimeException("Can not create directory.");
             }
 
         }
