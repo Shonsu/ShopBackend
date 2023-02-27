@@ -24,6 +24,8 @@ public class AdminProductImageService {
         String newFileName = SlugifyUtils.slugifyFileName(filename);
         System.out.println(Path.of(uploadDir));
         String path = null;
+        String currentDir = System.getProperty("user.dir");
+        System.out.println("Current dir using System:" + currentDir);
         try {
             path = new File(".").getCanonicalPath();
             System.out.println(path);
