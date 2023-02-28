@@ -9,6 +9,7 @@ import pl.shonsu.shop.common.repository.CartItemRepository;
 import pl.shonsu.shop.common.repository.CartRepository;
 import pl.shonsu.shop.order.model.Order;
 import pl.shonsu.shop.order.model.Payment;
+import pl.shonsu.shop.order.model.PaymentType;
 import pl.shonsu.shop.order.model.Shipment;
 import pl.shonsu.shop.order.model.dto.OrderDto;
 import pl.shonsu.shop.order.model.dto.OrderListDto;
@@ -17,6 +18,7 @@ import pl.shonsu.shop.order.repository.OrderRepository;
 import pl.shonsu.shop.order.repository.OrderRowRepository;
 import pl.shonsu.shop.order.repository.PaymentRepository;
 import pl.shonsu.shop.order.repository.ShipmentRepository;
+import pl.shonsu.shop.order.service.payment.p24.PaymentMethodP24;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class OrderService {
     private final ShipmentRepository shipmentRepository;
     private final PaymentRepository paymentRepository;
     private final EmailClientService emailClientService;
+    private final PaymentMethodP24 paymentMethodP24;
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto, Long userId) {
@@ -52,8 +55,16 @@ public class OrderService {
         savedOrderRows(cart, newOrder.getId(), shipment);
         clearOrderCart(orderDto);
         sendConfirmEmail(newOrder);
+        String redirectUrl = initPaymentIfNeeded(newOrder);
         // zwróć podsumowanie
-        return createOrderSummary(payment, newOrder);
+        return createOrderSummary(payment, newOrder, redirectUrl);
+    }
+
+    private String initPaymentIfNeeded(Order newOrder) {
+        if(newOrder.getPayment().getType() == PaymentType.P24_ONLINE){
+            return paymentMethodP24.initPayment(newOrder);
+        }
+        return null;
     }
 
     private void sendConfirmEmail(Order newOrder) {
