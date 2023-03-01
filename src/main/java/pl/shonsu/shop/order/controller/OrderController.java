@@ -22,6 +22,7 @@ import pl.shonsu.shop.order.service.OrderService;
 import pl.shonsu.shop.order.service.PaymentService;
 import pl.shonsu.shop.order.service.ShipmentService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -63,8 +64,10 @@ public class OrderController {
 
     @PostMapping("/notification/{orderHash}")
     public void notificationReceive(@PathVariable @Length(max = 12) String orderHash,
-                                    @RequestBody NotoficationReceiveDto receiveDto) {
-        orderService.receiveNotification(orderHash, receiveDto);
+                                    @RequestBody NotoficationReceiveDto receiveDto,
+                                    HttpServletRequest request
+    ) {
+        orderService.receiveNotification(orderHash, receiveDto, request.getRemoteAddr());
     }
 
 }

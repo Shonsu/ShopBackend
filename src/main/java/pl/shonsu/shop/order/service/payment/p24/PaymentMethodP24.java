@@ -3,6 +3,7 @@ package pl.shonsu.shop.order.service.payment.p24;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
@@ -46,8 +47,16 @@ public class PaymentMethodP24 {
                         .build())
                 .retrieve()
                 .onStatus(httpStatus -> {
-                    log.error("Something went wrong " + httpStatus.name());
-                    return httpStatus.is4xxClientError();
+                    if (httpStatus == HttpStatus.OK) {
+                        log.error("Http status: " + httpStatus.name());
+                    }
+                    if (httpStatus == HttpStatus.BAD_REQUEST) {
+                        log.error("Http status: " + httpStatus.name());
+                    }
+                    if (httpStatus == HttpStatus.UNAUTHORIZED) {
+                        log.error("Http status: " + httpStatus.name());
+                    }
+                    return httpStatus.isError();
                 }, clientResponse -> Mono.empty())
                 .toEntity(TransactionRegisterResponse.class)
                 .block();
@@ -80,9 +89,16 @@ public class PaymentMethodP24 {
         return "order_id_" + newOrder.getId().toString();
     }
 
-    public String receiveNotification(Order order, NotoficationReceiveDto receiveDto) {
+    public String receiveNotification(Order order, NotoficationReceiveDto receiveDto, String remoteAddr) {
+        validateIpAddress(remoteAddr);
         validate(receiveDto, order);
         return verifiyPayment(receiveDto, order);
+    }
+
+    private void validateIpAddress(String remoteAddr) {
+        if (!config.getServers().contains(remoteAddr)) {
+            throw new RuntimeException("Niepoprawny adres IP dla potwierdzenia płatności.");
+        }
     }
 
     private String verifiyPayment(NotoficationReceiveDto receiveDto, Order order) {
