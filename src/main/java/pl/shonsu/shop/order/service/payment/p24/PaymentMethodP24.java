@@ -27,7 +27,8 @@ public class PaymentMethodP24 {
                         config.isTestMode() ? config.getTestSecretKey() : config.getSecretKey()))
                 .baseUrl(config.isTestMode() ? config.getTestApiUrl() : config.getApiUrl())
                 .build();
-                TransactionRegisterRequest trr = TransactionRegisterRequest.builder()
+        ResponseEntity<TransactionRegisterResponse> result = webClient.post().uri("/transaction/register")
+                .bodyValue(TransactionRegisterRequest.builder()
                         .merchantId(config.getMerchantId())
                         .posId(config.getPosId())
                         .sessionId(createSessionId(newOrder))
@@ -42,10 +43,7 @@ public class PaymentMethodP24 {
                         .urlStatus(generateStatusUrl(newOrder.getOrderHash()))
                         .sign(createSign(newOrder))
                         .encoding("UTF-8")
-                        .build();
-                log.info("TransactionRegisterRequest: " + String.valueOf(trr));
-        ResponseEntity<TransactionRegisterResponse> result = webClient.post().uri("/transaction/register")
-                .bodyValue(trr)
+                        .build())
                 .retrieve()
                 .onStatus(httpStatus -> {
                     log.error("Something went wrong " + httpStatus.name());
@@ -53,7 +51,6 @@ public class PaymentMethodP24 {
                 }, clientResponse -> Mono.empty())
                 .toEntity(TransactionRegisterResponse.class)
                 .block();
-                log.info("TransactionRegisterResponse: " + String.valueOf(result));
         if (result != null && result.getBody() != null && result.getBody().getData() != null) {
             return (config.isTestMode() ? config.getTestUrl() : config.getUrl()) + "/trnRequest/" +
                     result.getBody().getData().token();
@@ -76,7 +73,6 @@ public class PaymentMethodP24 {
                 "\",\"merchantId\":" + config.getMerchantId() +
                 ",\"amount\":" + newOrder.getGrossValue().movePointRight(2).intValue() +
                 ",\"currency\":\"PLN\",\"crc\":\"" + (config.isTestMode() ? config.getTestCrc() : config.getCrc()) + "\"}";
-        log.info("createSign" + json);
         return DigestUtils.sha384Hex(json);
     }
 
@@ -85,7 +81,6 @@ public class PaymentMethodP24 {
     }
 
     public String receiveNotification(Order order, NotoficationReceiveDto receiveDto) {
-        log.info("receiveNotification receivedto:" + receiveDto.toString());
         validate(receiveDto, order);
         return verifiyPayment(receiveDto, order);
     }
@@ -131,7 +126,6 @@ public class PaymentMethodP24 {
         validateField(order.getGrossValue().compareTo(BigDecimal.valueOf(receiveDto.getOriginAmount()).movePointLeft(2)) == 0);
         validateField("PLN" .equals(receiveDto.getCurrency()));
         validateField(createReceivedSign(receiveDto, order).equals(receiveDto.getSign()));
-
     }
 
     private String createReceivedSign(NotoficationReceiveDto receiveDto, Order order) {
@@ -145,10 +139,7 @@ public class PaymentMethodP24 {
                 ",\"methodId\":" + receiveDto.getMethodId() +
                 ",\"statement\":\"" + receiveDto.getStatement() +
                 "\",\"crc\":\"" + (config.isTestMode() ? config.getTestCrc() : config.getCrc()) + "\"}";
-        log.info("createReceivedSign: " + json);
-        String sha = DigestUtils.sha384Hex(json);
-        log.info(sha);
-        return sha;
+        return DigestUtils.sha384Hex(json);
     }
 
     private void validateField(boolean condition) {
