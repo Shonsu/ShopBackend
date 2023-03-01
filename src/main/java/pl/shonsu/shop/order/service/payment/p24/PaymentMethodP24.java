@@ -130,16 +130,10 @@ public class PaymentMethodP24 {
         validateField(order.getGrossValue().compareTo(BigDecimal.valueOf(receiveDto.getAmount()).movePointLeft(2)) == 0);
         validateField(order.getGrossValue().compareTo(BigDecimal.valueOf(receiveDto.getOriginAmount()).movePointLeft(2)) == 0);
         validateField("PLN" .equals(receiveDto.getCurrency()));
-       // validateField(createReceivedSign(receiveDto, order).equals(receiveDto.getSign()));
+        validateField(createReceivedSign(receiveDto, order).equals(receiveDto.getSign()));
 
     }
 
-// NotoficationReceiveDto(merchantId=214066, posId=214066, sessionId=order_id_3, amount=22799, originAmount=22799,
-// currency=PLN, orderId=318154845, methodId=270, statement=p24-D15-B48-J45,
-// sign=a2fb3128e5ffb5679cfe57e884d2f8822de76c15d7dfdff47fe9a81a33420af4d4e91483005a1c6200e6733062101d63)
-// createReceivedSign: {"merchantId":214066,"posId":214066,"sessionId":"order_id_3","amount":22799,"originAmount":22799,
-// "currency":"PLN", "orderId":318154845,"methodId":270,"statement":"p24-D15-B48-J45","crc":"204dd9211ac9160d"}
-// 9861108cf65c68057b3e14e645844337bbad1689cb45e730291910f32ed59fbf4f4be0b79ac1e2d41e40569f8b8cd17a
     private String createReceivedSign(NotoficationReceiveDto receiveDto, Order order) {
         String json = "{\"merchantId\":" + config.getMerchantId() +
                 ",\"posId\":" + config.getPosId() +
@@ -147,7 +141,7 @@ public class PaymentMethodP24 {
                 "\",\"amount\":" + order.getGrossValue().movePointRight(2).intValue() +
                 ",\"originAmount\":" + order.getGrossValue().movePointRight(2).intValue() +
                 ",\"currency\":\"PLN\"" +
-                ", \"orderId\":" + receiveDto.getOrderId() +
+                ",\"orderId\":" + receiveDto.getOrderId() +
                 ",\"methodId\":" + receiveDto.getMethodId() +
                 ",\"statement\":\"" + receiveDto.getStatement() +
                 "\",\"crc\":\"" + (config.isTestMode() ? config.getTestCrc() : config.getCrc()) + "\"}";
