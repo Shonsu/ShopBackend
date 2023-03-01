@@ -1,5 +1,6 @@
 package pl.shonsu.shop.order.service.mapper;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import pl.shonsu.shop.common.model.Cart;
 import pl.shonsu.shop.common.model.CartItem;
 import pl.shonsu.shop.common.model.OrderStatus;
@@ -29,6 +30,7 @@ public class OrderMapper {
                 .grossValue(calculateGrossValue(cart.getItems(), shipment))
                 .payment(payment)
                 .userId(userId)
+                .orderHash(RandomStringUtils.randomAlphanumeric(12))
                 .build();
     }
 

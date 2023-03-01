@@ -47,6 +47,7 @@ public class Order {
     private String city;
     private String email;
     private String phone;
+    private String orderHash;
     @OneToOne
     private Payment payment;
     private Long userId;
