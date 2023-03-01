@@ -27,9 +27,7 @@ public class PaymentMethodP24 {
                         config.isTestMode() ? config.getTestSecretKey() : config.getSecretKey()))
                 .baseUrl(config.isTestMode() ? config.getTestApiUrl() : config.getApiUrl())
                 .build();
-
-        ResponseEntity<TransactionRegisterResponse> result = webClient.post().uri("/transaction/register")
-                .bodyValue(TransactionRegisterRequest.builder()
+                TransactionRegisterRequest trr = TransactionRegisterRequest.builder()
                         .merchantId(config.getMerchantId())
                         .posId(config.getPosId())
                         .sessionId(createSessionId(newOrder))
@@ -44,7 +42,10 @@ public class PaymentMethodP24 {
                         .urlStatus(generateStatusUrl(newOrder.getOrderHash()))
                         .sign(createSign(newOrder))
                         .encoding("UTF-8")
-                        .build())
+                        .build();
+                log.info("TransactionRegisterRequest: " + String.valueOf(trr));
+        ResponseEntity<TransactionRegisterResponse> result = webClient.post().uri("/transaction/register")
+                .bodyValue(trr)
                 .retrieve()
                 .onStatus(httpStatus -> {
                     log.error("Something went wrong " + httpStatus.name());
@@ -52,6 +53,7 @@ public class PaymentMethodP24 {
                 }, clientResponse -> Mono.empty())
                 .toEntity(TransactionRegisterResponse.class)
                 .block();
+                log.info("TransactionRegisterResponse: " + String.valueOf(result));
         if (result != null && result.getBody() != null && result.getBody().getData() != null) {
             return (config.isTestMode() ? config.getTestUrl() : config.getUrl()) + "/trnRequest/" +
                     result.getBody().getData().token();
@@ -74,7 +76,7 @@ public class PaymentMethodP24 {
                 "\",\"merchantId\":" + config.getMerchantId() +
                 ",\"amount\":" + newOrder.getGrossValue().movePointRight(2).intValue() +
                 ",\"currency\":\"PLN\",\"crc\":\"" + (config.isTestMode() ? config.getTestCrc() : config.getCrc()) + "\"}";
-        log.info(json);
+        log.info("createSign" + json);
         return DigestUtils.sha384Hex(json);
     }
 
@@ -83,7 +85,7 @@ public class PaymentMethodP24 {
     }
 
     public String receiveNotification(Order order, NotoficationReceiveDto receiveDto) {
-        log.info(receiveDto.toString());
+        log.info("receiveNotification receivedto:" + receiveDto.toString());
         validate(receiveDto, order);
         return verifiyPayment(receiveDto, order);
     }
@@ -132,6 +134,12 @@ public class PaymentMethodP24 {
 
     }
 
+// NotoficationReceiveDto(merchantId=214066, posId=214066, sessionId=order_id_3, amount=22799, originAmount=22799,
+// currency=PLN, orderId=318154845, methodId=270, statement=p24-D15-B48-J45,
+// sign=a2fb3128e5ffb5679cfe57e884d2f8822de76c15d7dfdff47fe9a81a33420af4d4e91483005a1c6200e6733062101d63)
+// createReceivedSign: {"merchantId":214066,"posId":214066,"sessionId":"order_id_3","amount":22799,"originAmount":22799,
+// "currency":"PLN", "orderId":318154845,"methodId":270,"statement":"p24-D15-B48-J45","crc":"204dd9211ac9160d"}
+// 9861108cf65c68057b3e14e645844337bbad1689cb45e730291910f32ed59fbf4f4be0b79ac1e2d41e40569f8b8cd17a
     private String createReceivedSign(NotoficationReceiveDto receiveDto, Order order) {
         String json = "{\"merchantId\":" + config.getMerchantId() +
                 ",\"posId\":" + config.getPosId() +

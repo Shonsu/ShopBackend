@@ -2,9 +2,11 @@ package pl.shonsu.shop.order.service.payment.p24;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @Builder
+@ToString
 public class TransactionRegisterRequest {
     private Integer merchantId;
     private Integer posId;
