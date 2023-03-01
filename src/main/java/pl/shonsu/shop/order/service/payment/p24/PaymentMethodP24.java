@@ -143,8 +143,10 @@ public class PaymentMethodP24 {
                 ",\"methodId\":" + receiveDto.getMethodId() +
                 ",\"statement\":\"" + receiveDto.getStatement() +
                 "\",\"crc\":\"" + (config.isTestMode() ? config.getTestCrc() : config.getCrc()) + "\"}";
-        log.info(json);
-        return DigestUtils.sha384Hex(json);
+        log.info("createReceivedSign: " + json);
+        String sha = DigestUtils.sha384Hex(json);
+        log.info(sha);
+        return sha;
     }
 
     private void validateField(boolean condition) {

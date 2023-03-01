@@ -124,7 +124,7 @@ public class OrderService {
                     .orderId(order.getId())
                     .note("Opłacono zamówienie przez Przelewy24, id płatnośći: " +
                             receiveDto.getStatement() +
-                            " , zmieniono status z " + oldStatus+ " na " +
+                            " , zmieniono status z " + oldStatus.getValue() + " na " +
                             order.getOrderStatus().getValue())
                     .build());
         }
