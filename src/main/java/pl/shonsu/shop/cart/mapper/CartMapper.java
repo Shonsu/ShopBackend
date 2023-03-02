@@ -35,20 +35,19 @@ public class CartMapper {
                 .build();
     }
 
-
     private static ProductDto mapToProductDto(Product product) {
         return ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .image(product.getImage())
-                .price(product.getPrice())
+                .price(product.getEndPrice())
                 .currency(product.getCurrency())
                 .slug(product.getSlug())
                 .build();
     }
 
     private static BigDecimal calculateLineValue(CartItem cartItem) {
-        return cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+        return (cartItem.getProduct().getEndPrice()).multiply(BigDecimal.valueOf(cartItem.getQuantity()));
     }
 
     private static SummaryDto mapToSummary(List<CartItem> items) {

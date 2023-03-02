@@ -89,6 +89,7 @@ public class AdminProductController {
                 .categoryId(adminProductDto.getCategoryId())
                 .description(adminProductDto.getDescription())
                 .price(adminProductDto.getPrice())
+                .salePrice(adminProductDto.getSalePrice())
                 .currency(adminProductDto.getCurrency())
                 .image(adminProductDto.getImage())
                 .slug(slugifySlug(adminProductDto.getSlug()))
