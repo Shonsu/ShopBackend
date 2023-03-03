@@ -13,7 +13,6 @@ import reactor.core.publisher.Mono;
 import static pl.shonsu.shop.order.service.payment.p24.RequestUtil.createRegisterRequest;
 import static pl.shonsu.shop.order.service.payment.p24.RequestUtil.createVerifyRequest;
 import static pl.shonsu.shop.order.service.payment.p24.RequestUtil.validate;
-import static pl.shonsu.shop.order.service.payment.p24.RequestUtil.validateIpAddress;
 
 @Service
 @Slf4j
@@ -43,7 +42,8 @@ public class PaymentMethodP24 {
     }
 
     public String receiveNotification(Order order, NotoficationReceiveDto receiveDto, String remoteAddr) {
-        validateIpAddress(remoteAddr, config);
+        log.info("Remote p24 addr: " + remoteAddr);
+        //validateIpAddress(remoteAddr, config);
         validate(receiveDto, order, config);
         return verifiyPayment(receiveDto, order);
     }
