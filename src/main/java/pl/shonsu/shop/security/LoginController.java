@@ -45,24 +45,24 @@ public class LoginController {
 
     @PostMapping("/login")
     public Token login(@RequestBody LoginCredentials loginCredentials) {
-        return authenticate(loginCredentials.getUsername(), loginCredentials.getPassword());
+        return authenticate(loginCredentials.getUsername(), loginCredentials.getLoginPassword());
     }
 
     @PostMapping("/register")
     public Token register(@RequestBody @Valid RegisterCredentials registerCredentials) {
-        if (!registerCredentials.getPassword().equals(registerCredentials.getRepeatPassword())) {
+        if (!registerCredentials.getPassword().equals(registerCredentials.getRepeatedPassword())) {
             throw new IllegalArgumentException("Hasła nie są identyczne");
         }
-        if (userRepository.existsByUsername(registerCredentials.getUsername())) {
+        if (userRepository.existsByUsername(registerCredentials.getRegisterUsername())) {
             throw new IllegalArgumentException("Taki użytkownik już istnieje w bazie danych");
         }
         userRepository.save(User.builder()
-                .username(registerCredentials.getUsername())
+                .username(registerCredentials.getRegisterUsername())
                 .password("{bcrypt}" + new BCryptPasswordEncoder().encode(registerCredentials.getPassword()))
                 .enabled(true)
                 .authorities(List.of(UserRole.ROLE_CUSTOMER))
                 .build());
-        return authenticate(registerCredentials.getUsername(), registerCredentials.getPassword());
+        return authenticate(registerCredentials.getRegisterUsername(), registerCredentials.getPassword());
     }
 
     private Token authenticate(String username, String password) {
@@ -86,17 +86,17 @@ public class LoginController {
     @Getter
     private static class LoginCredentials {
         private String username;
-        private String password;
+        private String loginPassword;
     }
 
     @Getter
     private static class RegisterCredentials {
         @Email
-        private String username;
+        private String registerUsername;
         @NotBlank
         private String password;
         @NotBlank
-        private String repeatPassword;
+        private String repeatedPassword;
     }
 
     @Getter
