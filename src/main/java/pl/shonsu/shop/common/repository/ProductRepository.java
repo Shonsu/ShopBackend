@@ -14,4 +14,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByCategoryId(Long id, Pageable pageable);
 
     List<Product> findBySalePriceIsNotNull();
+
+    List<Product> findByInSalePlaceTrue();
 }

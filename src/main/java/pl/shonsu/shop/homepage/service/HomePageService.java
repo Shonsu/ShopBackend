@@ -13,6 +13,6 @@ public class HomePageService {
     private final ProductRepository productRepository;
 
     public List<Product> getSaleProtucts() {
-        return productRepository.findBySalePriceIsNotNull();
+        return productRepository.findByInSalePlaceTrue();
     }
 }

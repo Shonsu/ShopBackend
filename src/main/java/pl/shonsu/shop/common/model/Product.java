@@ -25,11 +25,12 @@ public class Product {
     private String fullDescription;
     private BigDecimal price;
     private BigDecimal salePrice;
+    private boolean inSalePlace;
     private String currency;
     private String image;
     private String slug;
 
-    public Product(Long id, String name, Long categoryId, String description, String fullDescription, BigDecimal price, BigDecimal salePrice, String currency, String image, String slug) {
+    public Product(Long id, String name, Long categoryId, String description, String fullDescription, BigDecimal price, BigDecimal salePrice, boolean inSalePlace, String currency, String image, String slug) {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
@@ -37,6 +38,7 @@ public class Product {
         this.fullDescription = fullDescription;
         this.price = price;
         this.salePrice = salePrice;
+        this.inSalePlace = inSalePlace;
         this.currency = currency;
         this.image = image;
         this.slug = slug;
