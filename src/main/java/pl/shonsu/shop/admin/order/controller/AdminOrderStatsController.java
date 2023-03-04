@@ -26,7 +26,6 @@ public class AdminOrderStatsController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate to,
             @RequestParam OrderStatus orderStatus
     ) {
-        System.out.println(from + " to : " + to + " order status: " + orderStatus);
         return adminOrderStatsService.getStatistics(
                 LocalDateTime.of(from, LocalTime.of(0,0,0)),
                 LocalDateTime.of(to, LocalTime.of(23, 59,59)),
