@@ -26,7 +26,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDto getProductsBySlug(String slug) {
-        Product product = productRepository.findBySlug(slug);
+        Product product = productRepository.findBySlug(slug).orElseThrow();
         List<Review> reviews = reviewRepository.findByProductIdAndModeratedTrue(product.getId());
         return mapToProductDto(product, reviews);
     }

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 import pl.shonsu.shop.passwordresettoken.model.PasswordResetToken;
 import pl.shonsu.shop.passwordresettoken.model.PasswordResetTokenId;
 import pl.shonsu.shop.passwordresettoken.repository.PasswordResetTokenRepository;
@@ -29,7 +28,6 @@ class PasswordResetTokenCleanupServiceTest {
     PasswordResetTokenRepository tokenRepository;
 
     @Test
-    @Transactional
     void shouldCleanupExpiredTokens() {
         //given
         createPasswordResetTokens();
@@ -58,5 +56,6 @@ class PasswordResetTokenCleanupServiceTest {
         passwordResetTokens.add(new PasswordResetToken(new PasswordResetTokenId(4L, hashedToken), LocalDateTime.now(), false));
 
         tokenRepository.saveAll(passwordResetTokens);
+        tokenRepository.flush();
     }
 }

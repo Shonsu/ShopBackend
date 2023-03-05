@@ -2,6 +2,7 @@ package pl.shonsu.shop.category.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,11 +22,13 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
+    @Cacheable("categories")
     public List<Category> getCategories() {
         return categoryService.getCategories();
     }
 
     @GetMapping("/{slug}/products")
+    @Cacheable("CategoriesWithProducts")
     public CategoryProductsDto getCategoriesWithProducts(
             @PathVariable
             @Pattern(regexp = "[a-z0-9\\-]+")
